@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="active_lock_screen">Включить экран блокировки</string>
+    <string name="set_password">Задать пароль</string>
+    <string name="btn_save">Сохранить</string>
+    <string name="move_here">Перетащи сюда</string>
+</resources>

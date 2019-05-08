@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cadllMain"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/btn_style_roundcorner"
+    android:orientation="vertical"
+    android:padding="10.0dip">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Want to exit?"
+        android:textSize="22.0sp" />
+
+    <Button
+        android:id="@+id/cadbtnYes"
+        android:layout_width="match_parent"
+        android:layout_height="40.0dip"
+        android:text="Yes"
+        android:textColor="#ff323232"
+        android:textSize="21.0sp" />
+
+</LinearLayout>
