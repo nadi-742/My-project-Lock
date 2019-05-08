@@ -66,10 +66,10 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         findViewById(R.id.bottom_container).setOnDragListener(this);
         btnSave = findViewById(R.id.btn_save);
 
-        msg = (TextView) findViewById(R.id.textView2);
+        msg = findViewById(R.id.textView2);
 
         for (int i = 0; i < smiles.length; i++) {
-            TextView smile = (TextView) findViewById(smileIds[i]);
+            TextView smile = findViewById(smileIds[i]);
             smile.setText(smiles[i]);
             smile.setVisibility(View.VISIBLE);
             smile.setOnTouchListener(this);
