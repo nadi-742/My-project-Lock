@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.TypedValue;
 import android.view.Display;
 import android.view.DragEvent;
 import android.view.KeyEvent;
@@ -19,8 +20,6 @@ import java.util.Random;
 
 public class MainActivity extends Activity implements View.OnTouchListener, View.OnDragListener {
 
-    public static final String TAG = MainActivity.class.getName();
-
     public static final String MODE_KEY = "set_password_mode";
 
     private List<Integer> correct = new ArrayList<>();
@@ -30,16 +29,18 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     private Point displaySize;
     private View btnSave;
 
+    private ViewGroup topContainer;
+
     // http://unicode.org/emoji/charts/full-emoji-list.html
     private String[] smiles = {
-            "\uD83D\uDE00",
-            "\uD83D\uDE01",
-            "\uD83D\uDE02",
-            "\uD83D\uDE06",
-            "\uD83D\uDE0E",
-            "\uD83D\uDE48",
-            "\uD83D\uDE49",
-            "\uD83D\uDE4A",
+            "\uD83D\uDC2F",
+            "\uD83E\uDD81",
+            "\uD83D\uDC37",
+            "\uD83D\uDC0D",
+            "\uD83D\uDC23",
+            "\uD83D\uDC1D",
+            "\uD83D\uDC0C",
+            "\uD83D\uDC18",
     };
 
     int[] smileIds = {
@@ -62,7 +63,8 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         displaySize = new Point();
         display.getSize(displaySize);
 
-        findViewById(R.id.top_container).setOnDragListener(this);
+        topContainer = findViewById(R.id.top_container);
+        topContainer.setOnDragListener(this);
         findViewById(R.id.bottom_container).setOnDragListener(this);
         btnSave = findViewById(R.id.btn_save);
 
@@ -120,8 +122,9 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     }
 
     private void setRandomPos(View view) {
-        int x = random.nextInt(displaySize.x - view.getWidth());
-        int y = random.nextInt((4 * displaySize.y / 5) - view.getHeight());
+        int px = toPx(46f);
+        int x = random.nextInt(displaySize.x - px);
+        int y = random.nextInt((4 * displaySize.y / 5) - px);
 
         view.setX(x);
         view.setY(y);
@@ -162,19 +165,18 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
                 } else if (from.getId() == R.id.bottom_container) {
                     selected.remove(Integer.valueOf(view.getId()));
                     if (selected.isEmpty()) {
-                        from.addView(msg);
                         btnSave.setEnabled(false);
                     }
-                    view.setX(e.getX() - view.getWidth() / 2);
-                    view.setY(e.getY() - view.getHeight() / 2);
+                    view.setX(e.getX() - view.getHeight() / 2);
+                    view.setY(e.getY() - view.getWidth() / 2);
                 }
 
                 if (correct.equals(selected)) {
                     finish();
                 }
             } else {
-                view.setX(e.getX() - view.getWidth() / 2);
-                view.setY(e.getY() - view.getHeight() / 2);
+                view.setX(e.getX() - view.getHeight() / 2);
+                view.setY(e.getY() - view.getWidth() / 2);
             }
         }
         return true;
@@ -194,5 +196,9 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
             return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+    private int toPx(float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, getResources().getDisplayMetrics());
     }
 }
