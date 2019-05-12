@@ -1,4 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
@@ -8,51 +9,52 @@
         android:id="@+id/top_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.8">
+        android:layout_weight="0.8"
+        tools:ignore="ContentDescription">
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_1"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_2"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_3"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_4"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_5"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_6"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_7"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:textSize="48sp" />
 
-        <TextView
+        <ImageView
             android:id="@+id/smile_8"
             android:layout_width="64dp"
             android:layout_height="64dp"

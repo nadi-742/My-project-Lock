@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/btn_style_roundcorner"
     android:orientation="vertical"
-    android:padding="10.0dip">
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Want to exit?"
-        android:textSize="22.0sp" />
+        android:textSize="22sp" />
 
     <Button
         android:id="@+id/cadbtnYes"
@@ -20,6 +20,6 @@
         android:layout_height="40.0dip"
         android:text="Yes"
         android:textColor="#ff323232"
-        android:textSize="21.0sp" />
+        android:textSize="21sp" />
 
 </LinearLayout>

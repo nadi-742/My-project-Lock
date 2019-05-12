@@ -12,6 +12,7 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +23,10 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
     public static final String MODE_KEY = "set_password_mode";
 
+    private static final float IMAGE_SIZE = 46f;
+    private static final float TOP_CONTAINER_PROPORTIONS = 0.8f;
+
+
     private List<Integer> correct = new ArrayList<>();
     private List<Integer> selected = new ArrayList<>();
     private TextView msg;
@@ -31,16 +36,15 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
     private ViewGroup topContainer;
 
-    // http://unicode.org/emoji/charts/full-emoji-list.html
-    private String[] smiles = {
-            "\uD83D\uDC2F",
-            "\uD83E\uDD81",
-            "\uD83D\uDC37",
-            "\uD83D\uDC0D",
-            "\uD83D\uDC23",
-            "\uD83D\uDC1D",
-            "\uD83D\uDC0C",
-            "\uD83D\uDC18",
+    private int[] icons = {
+            R.drawable.elephant,
+            R.drawable.fox,
+            R.drawable.owl,
+            R.drawable.rabbit,
+            R.drawable.raccoon,
+            R.drawable.squirrel,
+            R.drawable.turtle,
+            R.drawable.zebra
     };
 
     int[] smileIds = {
@@ -70,9 +74,9 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
         msg = findViewById(R.id.textView2);
 
-        for (int i = 0; i < smiles.length; i++) {
-            TextView smile = findViewById(smileIds[i]);
-            smile.setText(smiles[i]);
+        for (int i = 0; i < icons.length; i++) {
+            ImageView smile = findViewById(smileIds[i]);
+            smile.setImageResource(icons[i]);
             smile.setVisibility(View.VISIBLE);
             smile.setOnTouchListener(this);
         }
@@ -122,9 +126,9 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     }
 
     private void setRandomPos(View view) {
-        int px = toPx(46f);
+        int px = toPx(IMAGE_SIZE);
         int x = random.nextInt(displaySize.x - px);
-        int y = random.nextInt((4 * displaySize.y / 5) - px);
+        int y = random.nextInt((int) ((displaySize.y * TOP_CONTAINER_PROPORTIONS) - px));
 
         view.setX(x);
         view.setY(y);
@@ -143,40 +147,40 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     }
 
     @Override
-    public boolean onDrag(View v, DragEvent e) {
-        if (e.getAction() == DragEvent.ACTION_DROP) {
-            View view = (View) e.getLocalState();
-            ViewGroup from = (ViewGroup) view.getParent();
-            from.removeView(view);
-            ViewGroup to = (ViewGroup) v;
-            to.addView(view);
+    public boolean onDrag(View draggedView, DragEvent dragEvent) {
+        if (dragEvent.getAction() == DragEvent.ACTION_DROP) {
+            View view = (View) dragEvent.getLocalState();
+            ViewGroup fromViewGroup = (ViewGroup) view.getParent();
+            fromViewGroup.removeView(view);
+            ViewGroup toViewGroup = (ViewGroup) draggedView;
+            toViewGroup.addView(view);
 
             view.setVisibility(View.VISIBLE);
 
-            if (from != to) {
-                if (to.getId() == R.id.bottom_container) {
+            if (fromViewGroup != toViewGroup) {
+                if (toViewGroup.getId() == R.id.bottom_container) {
                     if (selected.indexOf(view.getId()) == -1) {
                         selected.add(view.getId());
                         btnSave.setEnabled(true);
-                        to.removeView(msg);
+                        toViewGroup.removeView(msg);
                     }
                     view.setX(0);
                     view.setY(0);
-                } else if (from.getId() == R.id.bottom_container) {
-                    selected.remove(Integer.valueOf(view.getId()));
+                } else if (fromViewGroup.getId() == R.id.bottom_container) {
+                    selected.remove(view.getId());
                     if (selected.isEmpty()) {
                         btnSave.setEnabled(false);
                     }
-                    view.setX(e.getX() - view.getHeight() / 2);
-                    view.setY(e.getY() - view.getWidth() / 2);
+                    view.setX(dragEvent.getX() - view.getHeight() / 2);
+                    view.setY(dragEvent.getY() - view.getWidth() / 2);
                 }
 
                 if (correct.equals(selected)) {
                     finish();
                 }
             } else {
-                view.setX(e.getX() - view.getHeight() / 2);
-                view.setY(e.getY() - view.getWidth() / 2);
+                view.setX(dragEvent.getX() - view.getHeight() / 2);
+                view.setY(dragEvent.getY() - view.getWidth() / 2);
             }
         }
         return true;
