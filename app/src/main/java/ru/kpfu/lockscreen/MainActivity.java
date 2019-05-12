@@ -167,7 +167,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
                     view.setX(0);
                     view.setY(0);
                 } else if (fromViewGroup.getId() == R.id.bottom_container) {
-                    selected.remove(view.getId());
+                    selected.remove((Integer) view.getId());
                     if (selected.isEmpty()) {
                         btnSave.setEnabled(false);
                     }
