@@ -1,52 +1,52 @@
 package ru.kpfu.lockscreen;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
+import android.widget.Switch;
 
-@TargetApi(16)
 public class Settings extends Activity {
+
+    private static final String LOCK_ENABLE_KEY = "CHK_ENABLE_KEY";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.settings_main);
-        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-        RelativeLayout rel5 = (RelativeLayout) findViewById(R.id.relEnabled);
-        ImageView txtEna = (ImageView) findViewById(R.id.btnEnaOnOff);
-        if (sharedPrefs.getInt("CHK_ENABLE", 0) == 1) {
-            txtEna.setImageResource(R.drawable.chek);
-            startService(new Intent(this, MyService.class));
-        } else {
-            txtEna.setImageResource(R.drawable.unchek);
-            stopService(new Intent(this, MyService.class));
-        }
-        rel5.setOnClickListener(v -> {
-            Editor editor = sharedPrefs.edit();
-            if (sharedPrefs.getInt("CHK_ENABLE", 0) == 1) {
-                stopService(new Intent(Settings.this, MyService.class));
-                editor.putInt("CHK_ENABLE", 0);
-                txtEna.setImageResource(R.drawable.unchek);
-            } else {
-                startService(new Intent(Settings.this, MyService.class));
-                editor.putInt("CHK_ENABLE", 1);
-                txtEna.setImageResource(R.drawable.chek);
-            }
-            editor.apply();
-        });
 
-        RelativeLayout rel6 = (RelativeLayout) findViewById(R.id.setPassword);
-        rel6.setOnClickListener(v -> {
-            Intent newIntent = new Intent(Settings.this, MainActivity.class)
-                    .putExtra(MainActivity.MODE_KEY, true);
-            Settings.this.startActivity(newIntent);
-        });
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Switch lockSwitch = findViewById(R.id.lock_switch);
+
+        boolean lockScreenEnable = preferences.getBoolean(LOCK_ENABLE_KEY, false);
+        processService(lockScreenEnable);
+
+        lockSwitch.setChecked(lockScreenEnable);
+        lockSwitch.setOnCheckedChangeListener((view, isChecked) -> changeLockScreenEnable(isChecked, preferences));
+
+        findViewById(R.id.setup_password).setOnClickListener(view -> openSetupPassword());
     }
 
+    private void processService(boolean needStart) {
+        Intent intent = new Intent(this, MyService.class);
+        if (needStart) {
+            startService(intent);
+        } else {
+            stopService(intent);
+        }
+    }
+
+    private void changeLockScreenEnable(boolean isEnable, SharedPreferences preferences) {
+        preferences.edit()
+                .putBoolean(LOCK_ENABLE_KEY, isEnable)
+                .apply();
+        processService(isEnable);
+    }
+
+    private void openSetupPassword() {
+        Intent newIntent = new Intent(this, MainActivity.class);
+        newIntent.putExtra(MainActivity.MODE_KEY, true);
+        startActivity(newIntent);
+    }
 }

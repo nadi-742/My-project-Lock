@@ -2,45 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
-        android:id="@+id/relEnabled"
+    <Switch
+        android:id="@+id/lock_switch"
         android:layout_width="match_parent"
-        android:layout_height="55.0dip"
-        android:background="@drawable/btn_pick_cancel">
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:text="Активировать блокировку"
+        android:textColor="@android:color/black"
+        android:textSize="16sp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/active_lock_screen"
-            android:textColor="#ff323232"
-            android:textSize="20.0sp" />
-
-        <ImageView
-            android:id="@+id/btnEnaOnOff"
-            android:layout_width="65.0dip"
-            android:layout_height="50.0dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:src="@drawable/unchek" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/setPassword"
+    <Button
+        android:id="@+id/setup_password"
         android:layout_width="match_parent"
-        android:layout_height="55.0dip"
-        android:background="@drawable/btn_pick_cancel">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/set_password"
-            android:textColor="#ff323232"
-            android:textSize="20.0sp" />
-
-    </RelativeLayout>
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_pick_cancel"
+        android:gravity="left|center_vertical"
+        android:padding="16dp"
+        android:text="Задать пароль"
+        android:textAllCaps="false"
+        android:textSize="16sp" />
 
 </LinearLayout>
