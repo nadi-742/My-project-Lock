@@ -19,14 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class MainActivity extends Activity implements View.OnTouchListener, View.OnDragListener {
+public class MainActivity extends Activity implements View.OnTouchListener, View.OnDragListener, View.OnClickListener {
 
     public static final String MODE_KEY = "set_password_mode";
 
     private static final float IMAGE_SIZE = 46f;
     private static final float TOP_CONTAINER_PROPORTIONS = 0.8f;
-
-
 
     private List<Integer> correct = new ArrayList<>();
     private List<Integer> selected = new ArrayList<>();
@@ -82,6 +80,9 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
             smile.setOnTouchListener(this);
         }
 
+        View rootLayout = findViewById(R.id.rootLayout);
+        rootLayout.setOnClickListener(this);
+
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
@@ -119,11 +120,17 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     @Override
     protected void onResume() {
         super.onResume();
-
         for (int smileId : smileIds) {
             View viewById = findViewById(smileId);
             setRandomPos(viewById);
         }
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     private void setRandomPos(View view) {
@@ -145,6 +152,17 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onClick(View v) {
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
     }
 
     @Override
