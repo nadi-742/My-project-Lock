@@ -27,6 +27,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     private static final float TOP_CONTAINER_PROPORTIONS = 0.8f;
 
 
+
     private List<Integer> correct = new ArrayList<>();
     private List<Integer> selected = new ArrayList<>();
     private TextView msg;
