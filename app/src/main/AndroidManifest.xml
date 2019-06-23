@@ -12,7 +12,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen" >
         <activity
             android:name="ru.kpfu.lockscreen.Settings"
             android:label="@string/app_name">
@@ -32,6 +32,7 @@
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
+
         </receiver>
         <service android:name="ru.kpfu.lockscreen.MyService" />
     </application>

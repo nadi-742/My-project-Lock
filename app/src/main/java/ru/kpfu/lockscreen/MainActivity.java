@@ -1,6 +1,9 @@
 package ru.kpfu.lockscreen;
 
 import android.app.Activity;
+import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -25,6 +28,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
     private static final float IMAGE_SIZE = 46f;
     private static final float TOP_CONTAINER_PROPORTIONS = 0.8f;
+    public static final int RESULT_ENABLE = 11;
 
     private List<Integer> correct = new ArrayList<>();
     private List<Integer> selected = new ArrayList<>();
@@ -32,6 +36,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     private Random random = new Random();
     private Point displaySize;
     private View btnSave;
+    private ComponentName compName;
 
     private ViewGroup topContainer;
 
@@ -71,6 +76,8 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         findViewById(R.id.bottom_container).setOnDragListener(this);
         btnSave = findViewById(R.id.btn_save);
 
+        compName = new ComponentName(this, MainActivity.class);
+
         msg = findViewById(R.id.textView2);
 
         for (int i = 0; i < icons.length; i++) {
@@ -82,6 +89,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
         View rootLayout = findViewById(R.id.rootLayout);
         rootLayout.setOnClickListener(this);
+
 
         SharedPreferences sharedPrefs =
                 PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -124,22 +132,13 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
             View viewById = findViewById(smileId);
             setRandomPos(viewById);
         }
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        hideAllNavigationElements();
     }
 
-    private void setRandomPos(View view) {
-        int px = toPx(IMAGE_SIZE);
-        int x = random.nextInt(displaySize.x - px);
-        int y = random.nextInt((int) ((displaySize.y * TOP_CONTAINER_PROPORTIONS) - px));
-
-        view.setX(x);
-        view.setY(y);
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        hideAllNavigationElements();
     }
 
     @Override
@@ -156,13 +155,7 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
     @Override
     public void onClick(View v) {
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
-                        | View.SYSTEM_UI_FLAG_IMMERSIVE);
+        hideAllNavigationElements();
     }
 
     @Override
@@ -219,6 +212,26 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
             return false;
         }
         return super.onKeyDown(keyCode, event);
+    }
+
+
+    private void hideAllNavigationElements() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    private void setRandomPos(View view) {
+        int px = toPx(IMAGE_SIZE);
+        int x = random.nextInt(displaySize.x - px);
+        int y = random.nextInt((int) ((displaySize.y * TOP_CONTAINER_PROPORTIONS) - px));
+
+        view.setX(x);
+        view.setY(y);
     }
 
     private int toPx(float dp) {
