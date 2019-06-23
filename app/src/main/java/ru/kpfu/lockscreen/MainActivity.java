@@ -74,8 +74,6 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
         findViewById(R.id.bottom_container).setOnDragListener(this);
         btnSave = findViewById(R.id.btn_save);
 
-        compName = new ComponentName(this, MainActivity.class);
-
         msg = findViewById(R.id.textView2);
 
         for (int i = 0; i < icons.length; i++) {
