@@ -28,7 +28,6 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
 
     private static final float IMAGE_SIZE = 46f;
     private static final float TOP_CONTAINER_PROPORTIONS = 0.8f;
-    public static final int RESULT_ENABLE = 11;
 
     private List<Integer> correct = new ArrayList<>();
     private List<Integer> selected = new ArrayList<>();
@@ -36,7 +35,6 @@ public class MainActivity extends Activity implements View.OnTouchListener, View
     private Random random = new Random();
     private Point displaySize;
     private View btnSave;
-    private ComponentName compName;
 
     private ViewGroup topContainer;
 
